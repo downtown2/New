@@ -18,18 +18,49 @@
             text-align: center;
         }
 
-        /* Logo Styling */
-        .logo-container {
+        /* Logo */
+        .logo {
             text-align: center;
-            margin-top: 20px;
+            margin: 20px 0;
         }
 
-        .logo-container img {
-            max-width: 150px; /* Adjust size as needed */
-            height: auto;
+        /* Live Rates Marquee */
+        .live-rates-container {
+            width: 100%;
+            overflow: hidden;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 12px;
+            border-bottom: 2px solid gold;
+            white-space: nowrap;
+            position: relative;
         }
 
-        /* Social Icons Styling */
+        .live-rates {
+            display: inline-block;
+            color: #fff;
+            font-family: monospace;
+            font-size: 1.1em;
+            animation: scrollRates 15s linear infinite;
+        }
+
+        @keyframes scrollRates {
+            from {
+                transform: translateX(100%);
+            }
+            to {
+                transform: translateX(-100%);
+            }
+        }
+
+        .rate-change {
+            font-size: 0.8em;
+            margin-left: 5px;
+        }
+
+        .positive { color: #00ff00; }
+        .negative { color: #ff0000; }
+
+        /* Social Icons */
         .social-icons {
             text-align: center;
             margin: 20px 0;
@@ -47,7 +78,6 @@
             transition: 0.3s;
         }
 
-        /* Social Button Colors */
         .whatsapp { background: #25D366; }
         .telegram { background: #0088cc; }
         .instagram { background: #E4405F; }
@@ -57,7 +87,7 @@
             opacity: 0.8;
         }
 
-        /* Button Styling */
+        /* Buttons */
         .buttons {
             text-align: center;
             margin-top: 20px;
@@ -75,7 +105,6 @@
             transition: 0.3s;
         }
 
-        /* Custom Button Colors */
         .buttons .whatsapp { background: #25D366; }
         .buttons .telegram { background: #0088cc; }
         .buttons .instagram { background: #E4405F; }
@@ -124,12 +153,19 @@
 </head>
 <body>
     <div class="container">
-        <!-- Logo Placeholder -->
-        <div class="logo-container">
-            <img src="images//file-KB2yn337ES7bvpKue1XKrX.webp" alt="Your Logo"> 
-        </div>
-
         <header>
+            <!-- Logo Section -->
+            <div class="logo">
+                <img src="images//file-KB2yn337ES7bvpKue1XKrX.webp" alt="$mighty£xchange Logo" width="150">
+            </div>
+
+            <!-- Live Rates Marquee -->
+            <div class="live-rates-container">
+                <div id="rateTicker" class="live-rates">
+                    Loading live rates...
+                </div>
+            </div>
+
             <h1>$mighty£xchange</h1>
             <p>Superstars choice for Digital assets trading Direct Merchant Trade Satisfaction</p>
 
@@ -141,7 +177,7 @@
                     <img src="images/Gmail_icon_(2020).svg.png" alt="Email" width="40"> Gmail
                 </a>
                 <a href="https://wa.me/09022350295?text=Hello,%20I%20am%20interested!" class="whatsapp" target="_blank">
-                    <img src="images/images.png" alt="WhatsApp" width="40"> WhatsApp
+                    <img src="images/whatsapp.png" alt="WhatsApp" width="40"> WhatsApp
                 </a>
                 <a href="https://t.me/Samcruis" class="telegram" target="_blank">
                     <img src="images/Telegram_2019_Logo.svg.png" alt="Telegram" width="40"> Telegram
@@ -171,5 +207,31 @@
             <a href="https://linktr.ee/yourlinktree" class="linktree" target="_blank">Join $mighty£xchange on Linktree</a>
         </footer>
     </div>
+
+    <script>
+        async function fetchLiveRates() {
+            try {
+                const response = await fetch(
+                    'https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,litecoin,ripple&vs_currencies=usd&include_24hr_change=true'
+                );
+
+                const data = await response.json();
+
+                const ratesHTML = [
+                    `BTC: $${data.bitcoin.usd} <span class="rate-change ${data.bitcoin.usd_24h_change >= 0 ? 'positive' : 'negative'}">(${data.bitcoin.usd_24h_change.toFixed(2)}%)</span>`,
+                    `ETH: $${data.ethereum.usd} <span class="rate-change ${data.ethereum.usd_24h_change >= 0 ? 'positive' : 'negative'}">(${data.ethereum.usd_24h_change.toFixed(2)}%)</span>`,
+                    `LTC: $${data.litecoin.usd} <span class="rate-change ${data.litecoin.usd_24h_change >= 0 ? 'positive' : 'negative'}">(${data.litecoin.usd_24h_change.toFixed(2)}%)</span>`,
+                    `XRP: $${data.ripple.usd} <span class="rate-change ${data.ripple.usd_24h_change >= 0 ? 'positive' : 'negative'}">(${data.ripple.usd_24h_change.toFixed(2)}%)</span>`
+                ].join(' | ');
+
+                document.getElementById('rateTicker').innerHTML = ratesHTML;
+            } catch (error) {
+                document.getElementById('rateTicker').innerHTML = 'Live rates unavailable';
+            }
+        }
+
+        fetchLiveRates();
+        setInterval(fetchLiveRates, 60000);
+    </script>
 </body>
 </html>
