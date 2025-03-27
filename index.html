@@ -4,16 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>$mighty£xchange</title>
-    <link rel="stylesheet" href="styles.css">
-    <script src="script.js" defer></script>
     <style>
-        /* Background Gradient */
+        /* Background */
         html {
-    background: linear-gradient(to right, blue 0%, red 100%);
-}
-        html {
-    background: black;
-}
+            background: black;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
 
         /* General Text Styles */
         h1, p {
@@ -25,6 +32,12 @@
         .logo {
             text-align: center;
             margin: 20px 0;
+        }
+
+        .logo img {
+            max-width: 150px;
+            height: auto;
+            border-radius: 50%;
         }
 
         /* Live Rates Marquee */
@@ -67,6 +80,10 @@
         .social-icons {
             text-align: center;
             margin: 20px 0;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
         }
 
         .social-icons a {
@@ -88,12 +105,17 @@
 
         .social-icons a:hover {
             opacity: 0.8;
+            transform: translateY(-2px);
         }
 
         /* Buttons */
         .buttons {
             text-align: center;
             margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
         }
 
         .buttons a {
@@ -101,7 +123,6 @@
             color: white;
             text-decoration: none;
             padding: 12px 20px;
-            margin: 10px;
             font-size: 16px;
             font-weight: bold;
             border-radius: 5px;
@@ -117,6 +138,7 @@
 
         .buttons a:hover {
             opacity: 0.8;
+            transform: translateY(-2px);
         }
 
         /* Video Section */
@@ -131,17 +153,21 @@
         .video-card {
             text-align: center;
             max-width: 300px;
+            color: white;
         }
 
         video {
             width: 100%;
             border-radius: 5px;
+            border: 2px solid gold;
         }
 
         /* Footer */
         footer {
             text-align: center;
             margin-top: 20px;
+            padding: 20px 0;
+            color: white;
         }
 
         .linktree {
@@ -151,6 +177,13 @@
             text-decoration: none;
             color: white;
             border-radius: 5px;
+            background: #39E09B;
+            transition: 0.3s;
+        }
+
+        .linktree:hover {
+            opacity: 0.8;
+            transform: translateY(-2px);
         }
     </style>
 </head>
@@ -159,7 +192,7 @@
         <header>
             <!-- Logo Section -->
             <div class="logo">
-                <img src="images//IMG-20250325-WA0056.jpg" alt="$mighty£xchange Logo" width="150">
+                <img src="images//IMG-20250325-WA0056.jpg" alt="$mighty£xchange Logo">
             </div>
 
             <!-- Live Rates Marquee -->
@@ -174,27 +207,27 @@
 
             <div class="social-icons">
                 <a href="https://www.instagram.com/smighty_exchange" class="instagram" target="_blank">
-                    <img src="images/Instagram_logo_2022.svg.png" alt="Instagram" width="35"> Instagram
+                    <img src="images//Instagram_logo_2022.svg.png" alt="Instagram" width="20"> Instagram
                 </a>
                 <a href="mailto:smightyexchange@gmail.com?subject=Hello&body=I%20want%20to%20contact%20you" class="gmail">
-                    <img src="images/Gmail_icon_(2020).svg.png" alt="Email" width="40"> Gmail
+                    <img src="images//Gmail_icon_(2020).svg.png" alt="Email" width="20"> Gmail
                 </a>
                 <a href="https://wa.me/09022350295?text=Hello,%20I%20am%20interested!" class="whatsapp" target="_blank">
-                    <img src="images//images.png" alt="WhatsApp" width="40"> WhatsApp
+                    <img src="images//images.png" alt="WhatsApp" width="20"> WhatsApp
                 </a>
                 <a href="https://t.me/Samcruis" class="telegram" target="_blank">
-                    <img src="images/Telegram_2019_Logo.svg.png" alt="Telegram" width="40"> Telegram
+                    <img src="images//Telegram_2019_Logo.svg.png" alt="Telegram" width="20"> Telegram
                 </a>
             </div>
         </header>
 
         <div class="video-section">
             <div class="video-card">
-                <video src="videosinstagram_0_20250326_111217.mp4" controls></video>
-                
+                <video src="videos//instagram_0_20250326_111217.mp4" controls></video>
+                <p></p>
             </div>
             <div class="video-card">
-                <video src="videos/webapp.mp4" controls></video>
+                <video src="webapp.mp4" controls></video>
                 <p>WebApp</p>
             </div>
         </div>
@@ -207,7 +240,8 @@
         </div>
 
         <footer>
-            <a href="https://linktr.ee/yourlinktree" class="linktree" target="_blank">Follow $mighty£xchange on Instagram</a>
+            <a href="https://www.instagram.com/smighty_exchange" class="linktree" target="_blank">Follow $mighty£xchange on Instagram</a>
+            <p>© 2024 $mighty£xchange. All rights reserved.</p>
         </footer>
     </div>
 
@@ -229,10 +263,12 @@
 
                 document.getElementById('rateTicker').innerHTML = ratesHTML;
             } catch (error) {
-                document.getElementById('rateTicker').innerHTML = 'Live rates unavailable';
+                console.error('Error fetching rates:', error);
+                document.getElementById('rateTicker').innerHTML = 'Live rates unavailable - Check back later';
             }
         }
 
+        // Fetch immediately and then every minute
         fetchLiveRates();
         setInterval(fetchLiveRates, 60000);
     </script>
